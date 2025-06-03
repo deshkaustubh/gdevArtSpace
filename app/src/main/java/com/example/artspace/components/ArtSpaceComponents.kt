@@ -8,28 +8,21 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -42,7 +35,9 @@ import com.example.artspace.ui.theme.ArtSpaceTheme
 
 @Composable
 fun ArtWorkDescriptor(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    descriptionOfImage: String,
+    dateOfImage: String
 ) {
     Card(
         shape = RoundedCornerShape(16.dp),
@@ -69,14 +64,14 @@ fun ArtWorkDescriptor(
                     .height(90.dp)
             ) {
                 Text(
-                    "👑 Image of Kaustubh Deshpande",
+                    text = descriptionOfImage,
                     color = Color(0xFFFFFFFF),
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    "December, 2024",
+                    dateOfImage,
                     color = Color(0xFFFFFFFF),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
@@ -88,7 +83,9 @@ fun ArtWorkDescriptor(
 
 @Composable
 fun DisplayController(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onNextClick:() -> Unit,
+    onPreviousClick:() -> Unit
 ) {
     Row(
         modifier = Modifier.fillMaxWidth()
@@ -96,7 +93,7 @@ fun DisplayController(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Button(
-            onClick = {},
+            onClick = {onPreviousClick()},
             shape = RoundedCornerShape(20.dp),
             colors = ButtonDefaults.buttonColors(Color(0xFFF4F2EF)),
             modifier = Modifier.padding(start = 16.dp)
@@ -105,7 +102,7 @@ fun DisplayController(
             Text("Previous", color = Color.Black)
         }
         Button(
-            onClick = {},
+            onClick = {onNextClick()},
             shape = RoundedCornerShape(20.dp),
             colors = ButtonDefaults.buttonColors(Color(0xFFEAE2C4)),
             modifier = Modifier.padding(end = 16.dp)
@@ -117,13 +114,15 @@ fun DisplayController(
 
 @Composable
 fun ArtWorkWall(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    picture: Int
 ) {
     val softBeige = Color(0xFFE9DED5) // Muted beige shade
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .height(400.dp)
+            .padding(start = 48.dp, end = 48.dp)
             .background(color = softBeige),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -141,7 +140,7 @@ fun ArtWorkWall(
                     .wrapContentSize()
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.photo_kaustubh),
+                    painter = painterResource(id = picture),
                     contentDescription = "Artwork",
                     contentScale = ContentScale.Fit
                 )
@@ -154,6 +153,9 @@ fun ArtWorkWall(
 @Composable
 fun ArtSpaceComponentPreview() {
     ArtSpaceTheme {
-        ArtWorkWall()
+        ArtWorkWall(
+//            modifier = TODO(),
+            picture = R.drawable.photo_kaustubh
+        )
     }
 }
